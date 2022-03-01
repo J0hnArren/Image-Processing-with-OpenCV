@@ -111,10 +111,10 @@ int main() {
 
 
 	//color
-	auto img_chnl = split_image(img);
-	auto cmpr_img_chnl = split_image(img_jpg);
-	cv::imwrite("./cross_0256x0256_png_channels.png", img_chnl);
-	cv::imwrite("./cross_0256x0256_jpg_channels.png", cmpr_img_chnl);
+	auto img_channels = split_image(img);
+	auto img_jpg_channels = split_image(img_jpg);
+	cv::imwrite("./cross_0256x0256_png_channels.png", img_channels);
+	cv::imwrite("./cross_0256x0256_jpg_channels.png", img_jpg_channels);
 
 	imshow("Image", img );
 	cv::waitKey(0);
