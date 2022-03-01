@@ -1,6 +1,7 @@
 project(lab02)
 add_executable(lab02 lab02.cpp lab02.report.md.in.txt)
 target_link_libraries(lab02 ${OpenCV_LIBS})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(READ lab02.cpp cpp_source)
 # prepare report md file
