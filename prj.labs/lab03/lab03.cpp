@@ -8,7 +8,6 @@ double intensity(const ptrdiff_t& i) {
 }
 
 cv::Mat vividness() {
-    uchar table[256];
     cv::Mat lookUpTable(1, 256, CV_8U);
     for (ptrdiff_t i = 0; i < 256; ++i) {
         lookUpTable.at<uchar>(0, i) = intensity(i);
@@ -16,12 +15,17 @@ cv::Mat vividness() {
     return lookUpTable;
 }
 
-cv::Mat visualisation() {
-    cv::Mat plot(512, 512, CV_8UC1, 255);
-    line(plot, cv::Point(0, 511), cv::Point(0, 0), cv::Scalar(128, 128, 128), 2);
-    line(plot, cv::Point(511, 0), cv::Point(0, 0), cv::Scalar(128, 128, 128), 2);
-    for (ptrdiff_t i = 0; i < plot.cols; ++i) {
-        circle(plot, cv::Point(i, 511 - intensity(i)), 1, cv::Scalar(0), -1);
+cv::Mat visualisation(const cv::Mat &lup_table) {
+    const int bottom = 512 / 2 - 512 / 2;
+    const int top = 512 / 2 + 512 / 2 - 1;
+    cv::Mat plot(512, 512, CV_8UC3);
+    plot = cv::Scalar(255, 255, 255);
+    cv::line(plot, cv::Point2i(bottom, bottom), cv::Point2i(bottom, top), cv::Scalar(255, 255, 0), 2);
+    cv::line(plot, cv::Point2i(bottom, top), cv::Point2i(top, top), cv::Scalar(255, 255, 0), 2);
+    for (int i = 0; i < 256; ++i) {
+        const int x = bottom + static_cast<int>((i / 256.0) * 512);
+        const int y = top - static_cast<int>((lup_table.at<uchar>(i) / 256.0) * 512);
+        plot.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 0);
     }
     return plot;
 }
@@ -37,15 +41,17 @@ int main() {
 
     cv::Mat img_gray, img_res, img_gray_res;
     cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
-    LUT(img, vividness(), img_res);
-    LUT(img_gray, vividness(), img_gray_res);
+    const cv::Mat lup_table = vividness();
+
+    // plot
+    imwrite("lab03_viz_func.png", visualisation(lup_table));
+
+    LUT(img, lup_table, img_res);
+    LUT(img_gray, lup_table, img_gray_res);
     imwrite("lab03_rgb.png", img);
     imwrite("lab03_gre.png", img_gray);
     imwrite("lab03_rgb_res.png", img_res);
     imwrite("lab03_gre_res.png", img_gray_res);
-
-    // plot
-    imwrite("lab03_viz_func.png", visualisation());
 
 	cv::waitKey(0);
 

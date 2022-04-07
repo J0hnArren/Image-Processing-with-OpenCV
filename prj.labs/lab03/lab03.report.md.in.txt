@@ -2,7 +2,7 @@
 автор: Парчиев Р.Б.
 дата: @time_stemp@
 
-url: https://gitlab.com/2021-misis-spring/polevoy_d_v/-/tree/master/prj.labs/lab03
+url: https://github.com/J0hnArren/Image-Processing-with-OpenCV/tree/main/prj.labs/lab03
 
 ### Задание
 1. В качестве тестового использовать изображение data/cross_0256x0256.png
@@ -15,18 +15,23 @@ url: https://gitlab.com/2021-misis-spring/polevoy_d_v/-/tree/master/prj.labs/lab
 ### Результаты
 
 ![](lab03_rgb.png)
+
 Рис. 1. Исходное тестовое изображение
 
 ![](lab03_gre.png)
+
 Рис. 2. Тестовое изображение greyscale
 
 ![](lab03_gre_res.png)
+
 Рис. 3. Результат применения функции преобразования яркости для greyscale
 
 ![](lab03_rgb_res.png)
+
 Рис. 4. Результат применения функции преобразования яркости для каналов
 
 ![](lab03_viz_func.png)
+
 Рис. 5. Визуализация функции яркостного преобразования
 
 ### Текст программы
