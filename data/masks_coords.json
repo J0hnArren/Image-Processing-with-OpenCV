@@ -1,0 +1,92 @@
+[
+  {
+    "bottom-left": [ 97, 742 ],
+    "top-left": [ 90, 80 ],
+    "top-right": [ 377, 85 ],
+    "bottom-right": [ 380, 731 ]
+  },
+  {
+    "bottom-left": [ 97, 739 ],
+    "top-left": [ 89, 80 ],
+    "top-right": [ 372, 87 ],
+    "bottom-right": [ 377, 729 ]
+  },
+  {
+    "bottom-left": [ 104, 741 ],
+    "top-left": [ 97, 83 ],
+    "top-right": [ 381, 88 ],
+    "bottom-right": [ 382, 733 ]
+  },
+  {
+    "bottom-left": [ 86, 791 ],
+    "top-left": [ 84, 53 ],
+    "top-right": [ 399, 56 ],
+    "bottom-right": [ 399, 783 ]
+  },
+  {
+    "bottom-left": [ 87, 788 ],
+    "top-left": [ 87, 54 ],
+    "top-right": [ 397, 59 ],
+    "bottom-right": [ 397, 778 ]
+  },
+  {
+    "bottom-left": [ 84, 791 ],
+    "top-left": [ 80, 56 ],
+    "top-right": [ 392, 61 ],
+    "bottom-right": [ 395, 781 ]
+  },
+  {
+    "bottom-left": [ 92, 756 ],
+    "top-left": [ 89, 60 ],
+    "top-right": [ 389, 68 ],
+    "bottom-right": [ 387, 752 ]
+  },
+  {
+    "bottom-left": [ 92, 762 ],
+    "top-left": [ 92, 62 ],
+    "top-right": [ 392, 68 ],
+    "bottom-right": [ 390, 755 ]
+  },
+  {
+    "bottom-left": [ 99, 759 ],
+    "top-left": [ 97, 61 ],
+    "top-right": [ 397, 67 ],
+    "bottom-right": [ 395, 752 ]
+  },
+  {
+    "bottom-left": [ 87, 786 ],
+    "top-left": [ 80, 60 ],
+    "top-right": [ 394, 65 ],
+    "bottom-right": [ 394, 780 ]
+  },
+  {
+    "bottom-left": [ 87, 787 ],
+    "top-left": [ 82, 62 ],
+    "top-right": [ 394, 65 ],
+    "bottom-right": [ 394, 780 ]
+  },
+  {
+    "bottom-left": [ 87, 787 ],
+    "top-left": [ 81, 59 ],
+    "top-right": [ 394, 64 ],
+    "bottom-right": [ 394, 779 ]
+  },
+  {
+    "bottom-left": [ 94, 790 ],
+    "top-left": [ 100, 60 ],
+    "top-right": [ 412, 68 ],
+    "bottom-right": [ 417, 789 ]
+  },
+  {
+    "bottom-left": [ 95, 781 ],
+    "top-left": [ 105, 66 ],
+    "top-right": [ 412, 76 ],
+    "bottom-right": [ 419, 790 ]
+  },
+  {
+    "bottom-left": [ 89, 795 ],
+    "top-left": [ 97, 70 ],
+    "top-right": [ 402, 79 ],
+    "bottom-right": [ 412, 791 ]
+  }
+]
