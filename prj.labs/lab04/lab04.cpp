@@ -15,15 +15,15 @@ const std::string MASKS_COORDS = DATA_PATH + "masks_coords.json";
 
 
 void extracting_frames() {
-    for (int i = 0; i < NUMBER_OF_VIDEOS; ++i) {
-        cv::VideoCapture capture(DATA_PATH + VID_NAMES[i] + VIDS_FORMAT);
+    for (int video = 0; video < NUMBER_OF_VIDEOS; ++video) {
+        cv::VideoCapture capture(DATA_PATH + VID_NAMES[video] + VIDS_FORMAT);
         if (!capture.isOpened()) {
-            std::cerr << "Unable to load the video from path:" + DATA_PATH + VID_NAMES[i] + "\n";
-            return;
+            std::cerr << "Unable to load the video from path:" + DATA_PATH + VID_NAMES[video] + "\n";
+            exit(1);
         }
         std::vector<cv::Mat> result;
         cv::Mat frame;
-        result.reserve(500);
+        result.reserve(300);
         for (;;) {
             capture >> frame;
             if (frame.empty()) {
@@ -34,17 +34,17 @@ void extracting_frames() {
         auto total = result.size();
         int img_total = 3;
         for (int i = 0; i < img_total; ++i) {
-            int img_num = img_total * i + int(i) + 1;
-            int idx = (i + 2) * total / 5;
-            cv::imwrite(RESULTS_PATH + "frame" + std::to_string(img_num) + IMAGE_FORMAT, result[idx]);
-        }
+            int img_num = img_total * video + i + 1;
+            int index = (i + 2) * total / 5;
+            cv::imwrite(RESULTS_PATH + "frame_" + std::to_string(img_num) + IMAGE_FORMAT, result[index]);
+        } 
     }
 }
 
 std::vector<cv::Mat> read_frames(const size_t& frames_num) {
     std::vector<cv::Mat> result;
     for (size_t i = 0; i < frames_num; ++i) {
-        auto img = cv::imread(RESULTS_PATH + "frame" + std::to_string(i + 1) + IMAGE_FORMAT, cv::IMREAD_COLOR);
+        auto img = cv::imread(RESULTS_PATH + "frame_" + std::to_string(i + 1) + IMAGE_FORMAT, cv::IMREAD_COLOR);
         result.push_back(img.clone());
     }
     return result;
@@ -54,10 +54,10 @@ std::vector<cv::Mat>& binarize(std::vector<cv::Mat>& frames) {
     int image_num = 1;
     for (auto& frame : frames) {
         cv::cvtColor(frame, frame, cv::COLOR_BGRA2GRAY, 0);
-        cv::imwrite(RESULTS_PATH + "grayscale_frame" + std::to_string(image_num) + IMAGE_FORMAT, frame);
+        cv::imwrite(RESULTS_PATH + "grayscale_frame_" + std::to_string(image_num) + IMAGE_FORMAT, frame);
         cv::GaussianBlur(frame, frame, cv::Size(15, 15), 0);
         cv::threshold(frame, frame, 145, 255, cv::THRESH_BINARY + cv::THRESH_OTSU);
-        cv::imwrite(RESULTS_PATH + "bin_frame" + std::to_string(image_num) + IMAGE_FORMAT, frame);
+        cv::imwrite(RESULTS_PATH + "bin_frame_" + std::to_string(image_num) + IMAGE_FORMAT, frame);
         ++image_num;
     }
     return frames;
@@ -70,7 +70,7 @@ std::vector<cv::Mat>& morph_processing(std::vector<cv::Mat>& frames) {
         cv::morphologyEx(frame, frame, cv::MORPH_CLOSE, kernel);
         cv::morphologyEx(frame, frame, cv::MORPH_OPEN, kernel);
         cv::dilate(frame, frame, kernel);
-        cv::imwrite(RESULTS_PATH + "morph_frame" + std::to_string(image_num) + IMAGE_FORMAT, frame);
+        cv::imwrite(RESULTS_PATH + "morph_frame_" + std::to_string(image_num) + IMAGE_FORMAT, frame);
         ++image_num;
     }
     return frames;
@@ -140,7 +140,7 @@ std::vector<cv::Mat>& get_mask(std::vector<cv::Mat>& frames) {
         }
 
         create_mask(mask, selected_img_part);
-        cv::imwrite(RESULTS_PATH + "improved_morph" + std::to_string(image_num) + IMAGE_FORMAT, frame);
+        cv::imwrite(RESULTS_PATH + "modify_morph_" + std::to_string(image_num) + IMAGE_FORMAT, frame);
         ++image_num;
     }
     return frames;
@@ -162,7 +162,7 @@ std::vector<cv::Mat> create_etalon_mask(const std::vector<std::array<cv::Point, 
         auto img = images[last_index].clone();
         img = 0;
         cv::fillPoly(img, ppt, npt, 1, cv::Scalar(255, 255, 255));
-        cv::imwrite(RESULTS_PATH + "mask" + std::to_string(last_index + 1) + IMAGE_FORMAT, img);
+        cv::imwrite(RESULTS_PATH + "mask_" + std::to_string(last_index + 1) + IMAGE_FORMAT, img);
         result.push_back(img);
         ++last_index;
     }
@@ -199,7 +199,7 @@ std::vector<cv::Mat> create_concatenated_masks(const std::vector<cv::Mat>& origi
         cv::max(rgb_image_channels[2], mask_frames[i], rgb_image_channels[2]);
         cv::max(rgb_image_channels[1], created_frames[i], rgb_image_channels[1]);
         cv::merge(rgb_image_channels, 3, result[i]);
-        cv::imwrite(RESULTS_PATH + "conc_frame" + std::to_string(i + 1) + IMAGE_FORMAT, result[i]);
+        cv::imwrite(RESULTS_PATH + "concat_frame_" + std::to_string(i + 1) + IMAGE_FORMAT, result[i]);
     }
     return result;
 }
@@ -238,15 +238,21 @@ std::vector<int> process_union_masks(const std::vector<cv::Mat>& mask_frames,
     return result;
 }
 
-std::vector<double> process_precision(const std::vector<cv::Mat>& mask_frames,
+double process_precision(const std::vector<cv::Mat>& mask_frames,
+                         const std::vector<cv::Mat>& created_masks, const int& i) {
+    auto int_masks = process_intersect_masks(mask_frames, created_masks);
+    auto union_masks = process_union_masks(mask_frames, created_masks);
+    return (int_masks[i] * 1.0) / union_masks[i];;
+}
+
+std::vector<double> create_precision(const std::vector<cv::Mat>& mask_frames,
                                       const std::vector<cv::Mat>& created_masks) {
     std::ofstream out(RESULTS_PATH + "precision_values.txt", std::ios_base::out);
     auto result = std::vector<double>(mask_frames.size());
-    auto int_masks = process_intersect_masks(mask_frames, created_masks);
-    auto union_masks = process_union_masks(mask_frames, created_masks);
+
     for (int i = 0; i < mask_frames.size(); ++i) {
-        result[i] = (int_masks[i] * 1.0) / union_masks[i];
-        out << i + 1 << ") " << result[i] << std::endl;
+        result[i] = process_precision(mask_frames, created_masks, i);
+        out << i + 1 << " - " << result[i] << std::endl;
     }
     return result;
 }
@@ -260,7 +266,7 @@ int main() {
     get_mask(frames);
     std::vector<cv::Mat> created_masks = create_etalon_mask(read_mask_points(), frames);
     create_concatenated_masks(original_frames, frames, created_masks);
-    process_precision(frames, created_masks);
+    create_precision(frames, created_masks);
 
     return EXIT_SUCCESS;
 }   

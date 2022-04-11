@@ -22,45 +22,45 @@ url: https://github.com/J0hnArren/Image-Processing-with-OpenCV/tree/main/prj.lab
 ### Результаты
 В результате извлечения кадров указанным выше образом из 5 отснятых видео было извлечено по 3 изображения (рис.1):<br>
 
-![](./results/frame2.png)
-![](./results/frame8.png)
-![](./results/frame15.png)
+![](./results/frame_2.png)
+![](./results/frame_8.png)
+![](./results/frame_15.png)
 Рис. 1. Примеры исходных кадров из видео. <br><br>
 
 Далее было применено цветоредуцирование (рис. 2):<br>
 
-![](./results/grayscale_frame2.png)
-![](./results/grayscale_frame8.png)
-![](./results/grayscale_frame15.png)
+![](./results/grayscale_frame_2.png)
+![](./results/grayscale_frame_8.png)
+![](./results/grayscale_frame_15.png)
 Рис. 2. Цветоредуцированные изображения. <br><br>
 
 Затем цветоредуцированные изображения бинаризуются при помощи глобальной бинаризации OTSU (рис. 3):<br> 
 
-![](./results/bin_frame2.png)
-![](./results/bin_frame8.png)
-![](./results/bin_frame15.png)
+![](./results/bin_frame_2.png)
+![](./results/bin_frame_8.png)
+![](./results/bin_frame_15.png)
 Рис. 3. Бинаризированные изображения. <br><br>
 
 В результате, к полученным изображениям применяются морфологические преобразования для удаления на них "шумов" и создания более гладких и правильных границ (Рис. 4).</br>
 Используемые операции: close, opene и dilate.</br>
 
-![](./results/morph_frame2.png)
-![](./results/morph_frame8.png)
-![](./results/morph_frame15.png)
+![](./results/morph_frame_2.png)
+![](./results/morph_frame_8.png)
+![](./results/morph_frame_15.png)
 Рис. 4. Морфологически обработанные изображения. <br><br>
 
-Далее для получения маски производятся нахождение наибольшей по площади компоненты связности (КС), а остальные КС при этом закрашиваются в черный. Для закрашивания в белый цвет внутренних пикселей маски по белому изображению в горизонтальном направлении наносятся черные пиксели с двух сторон до момента когда встретится первый белый пиксель на маске(рис. 5):<br>
+Далее для получения маски производтся нахождение наибольшей по площади компоненты связности (КС), а остальные КС при этом закрашиваются в черный. Для закрашивания в белый цвет внутренних пикселей маски по белому изображению в горизонтальном направлении наносятся черные пиксели с двух сторон до момента встречи первого белого пикселя на маске(рис. 5):<br>
 
-![](./results/improved_morph2.png)
-![](./results/improved_morph8.png)
-![](./results/improved_morph15.png)
+![](./results/modify_morph_2.png)
+![](./results/modify_morph_8.png)
+![](./results/modify_morph_15.png)
 Рис. 5. Полученные маски. <br><br>
 
 Для проверки качества полученных созданных масок вручную задаются координаты эталонных маскок (рис. 6):<br>
 
-![](./results/mask2.png)
-![](./results/mask8.png)
-![](./results/mask15.png)
+![](./results/mask_2.png)
+![](./results/mask_8.png)
+![](./results/mask_15.png)
 Рис. 6. Эталонные маски. <br><br>
 
 Для визуализации отличий маски накладываются на исходные кадры в разных цветовых каналах: (рис. 7):<br>
@@ -68,9 +68,9 @@ url: https://github.com/J0hnArren/Image-Processing-with-OpenCV/tree/main/prj.lab
 * Зеленый - эталонная маска
 * Желтый - пересечение масок
 
-![](./results/conc_frame2.png)
-![](./results/conc_frame8.png)
-![](./results/conc_frame15.png)
+![](./results/concat_frame_2.png)
+![](./results/concat_frame_8.png)
+![](./results/concat_frame_15.png)
 Рис. 7. Визуализация отличий трех масок. <br>
 
 Для примеров рисунков использовались изображения под номером 2, 8 и 15 соответственно.
@@ -91,10 +91,10 @@ _______________________________
 | frame_3.png     | 0.894071  |
 | frame_4.png     | 0.899614  |
 | frame_5.png     | 0.897403  |
-| frame_6_.png    | 0.899915  |
-| frame_7_.png    | 0.903     |
-| frame_8_.png    | 0.884048  |
-| frame_9_.png    | 0.882077  |
+| frame_6.png     | 0.899915  |
+| frame_7.png     | 0.903     |
+| frame_8.png     | 0.884048  |
+| frame_9.png     | 0.882077  |
 | frame_10.png    | 0.908172  |
 | frame_11.png    | 0.903704  |
 | frame_12.png    | 0.904756  |
